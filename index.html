@@ -8,25 +8,1939 @@
       name="description"
       content="Siete días para entender quién se quedó con la tierra en los Montes de María (1990-2005). Blog académico del Grupo 7 (CBU Colombia: espacio, tiempo, diferencia)."
     />
-    <meta
-      property="og:title"
-      content="Detrás de cada hectárea"
-    />
+    <meta property="og:title" content="Detrás de cada hectárea" />
     <meta
       property="og:description"
       content="Siete días para entender quién se quedó con la tierra en los Montes de María (1990-2005)."
     />
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Tipografías editoriales -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Tailwind CSS por CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+      };
+    </script>
+
+    <!-- React 18 UMD + Babel Standalone 7 por CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js"></script>
+
+    <style>
+      :root {
+        --bg-canvas: #f7f4ec;
+        --bg-surface: #efeae0;
+        --bg-elevated: #fbf9f4;
+        --border-hairline: #d8d0c0;
+        --border-strong: #b9ae9a;
+        --text-primary: #231c16;
+        --text-secondary: #4d4238;
+        --text-muted: #6c5f52;
+        --accent-olive: #3f5232;
+        --accent-olive-hover: #324227;
+        --accent-olive-soft: #e5ebdf;
+        --accent-ochre: #8a5a1e;
+        --accent-ochre-soft: #f3ead9;
+      }
+
+      .dark {
+        --bg-canvas: #171411;
+        --bg-surface: #211c17;
+        --bg-elevated: #27211c;
+        --border-hairline: #362e26;
+        --border-strong: #52473b;
+        --text-primary: #efeae0;
+        --text-secondary: #c8bfaf;
+        --text-muted: #9e9382;
+        --accent-olive: #8ba870;
+        --accent-olive-hover: #9bb880;
+        --accent-olive-soft: #252e1f;
+        --accent-ochre: #d49b4b;
+        --accent-ochre-soft: #2e2417;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        background-color: var(--bg-canvas);
+        color: var(--text-primary);
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        background-color: var(--bg-canvas);
+        color: var(--text-primary);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      .font-serif-editorial {
+        font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+      }
+
+      .font-mono-clock {
+        font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .prose-editorial {
+        font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+        font-size: 1.0625rem; /* 17px mínimo en móvil */
+        line-height: 1.78;
+      }
+
+      @media (min-width: 768px) {
+        .prose-editorial {
+          font-size: 1.125rem; /* 18px en pantallas amplias */
+          line-height: 1.8;
+        }
+      }
+
+      .dark .prose-editorial {
+        letter-spacing: 0.008em;
+      }
+
+      .drop-cap::first-letter {
+        font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+        float: left;
+        margin-right: 0.65rem;
+        margin-top: 0.25rem;
+        font-size: 3rem;
+        font-weight: 600;
+        line-height: 0.85;
+        color: var(--accent-olive);
+      }
+
+      .text-balance {
+        text-wrap: balance;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+
+    <script type="text/babel" data-presets="react">
+      /* @jsxRuntime classic */
+      /* =====================================================================
+         CONTENIDO EDITABLE DEL BLOG ACADÉMICO
+         Edita únicamente el objeto CONTENIDO_BLOG para actualizar:
+         - Carreras de los integrantes
+         - Textos de los días 2 a 6 (titulo, subtitulo, integrante, contexto,
+           perspectiva, aporteALaTesis, dilemaEtico, cita, imagen)
+         - "nuestraPostura" en el Día 7
+         - "creditosImagenes" al final
+         Cualquier campo vacío ("") se oculta automáticamente y no suma
+         palabras al reloj de lectura.
+         ===================================================================== */
+
+      const CONTENIDO_BLOG = {
+        proyecto: {
+          titulo: "Detrás de cada hectárea",
+          subtitulo:
+            "Siete días para entender quién se quedó con la tierra en los Montes de María (1990-2005)",
+          grupo: "Grupo 7",
+          curso: "CBU Colombia: espacio, tiempo, diferencia",
+          audiencia:
+            "Lectura dirigida a estudiantes de pregrado de ingenierías, economía, administración y ciencias.",
+          preguntaIndagacion:
+            "¿Cuál fue la influencia de los grupos armados al margen de la ley en la concentración de la tenencia de la tierra en la región de los Montes de María entre 1990 y 2005?",
+          tesis:
+            "En la región de los Montes de María entre 1990 y 2005, la presencia y accionar de los grupos armados al margen de la ley impulsó la concentración de la tenencia de la tierra al sustituir el control estatal y subordinar los derechos legales de propiedad campesina a través del despojo sistemático a favor de élites locales y terceros.",
+          integrantes: [
+            { nombre: "Juan González Puentes", carrera: "[carrera]" },
+            { nombre: "Sahara Manuela Montes Martínez", carrera: "[carrera]" },
+            { nombre: "Juan Sebastián Pinedo Sogamoso", carrera: "[carrera]" },
+            { nombre: "Laura Santana Ortiz", carrera: "[carrera]" },
+            { nombre: "Natalia Vitoviz Perdomo", carrera: "[carrera]" },
+          ],
+        },
+
+        dias: [
+          {
+            numero: 1,
+            titulo: "La pregunta que inquieta",
+            subtitulo: "Planteamiento inicial e hipótesis del equipo",
+            integrante: "",
+            parrafos: [
+              'Todo proceso de investigación riguroso nace de una pregunta que inquieta y desafía lo evidente. En este recorrido grupal, nuestra mirada se ha centrado en una región profundamente marcada por los daños del conflicto armado en Colombia: los Montes de María. Nuestra pregunta de indagación busca responder: "¿Cuál fue la influencia de los grupos armados al margen de la ley en la concentración de la tenencia de la tierra en la región de los Montes de María entre 1990 y 2005?"',
+              'Partimos de la convicción de que los problemas agrarios de nuestro país no se reducen a meras cifras económicas o atributos físicos del suelo. Por ello, nuestra tesis central postula: "En la región de los Montes de María entre 1990 y 2005, la presencia y accionar de los grupos armados al margen de la ley impulsó la concentración de la tenencia de la tierra al sustituir el control estatal y subordinar los derechos legales de propiedad campesina a través del despojo sistemático a favor de élites locales y terceros."',
+              "Sin embargo, antes de contrastar esta postura con los archivos, mapas y testimonios, nuestra hipótesis inicial asumía que el desplazamiento forzado y el abandono de tierras operaban casi exclusivamente como un daño colateral y directo de los enfrentamientos armados entre la guerrilla y los paramilitares. Al arrancar este viaje, creíamos que la concentración de la tierra era un efecto automático de la guerra y que los actores armados actuaban por iniciativa propia para expulsar a los campesinos, sin dimensionar cómo estas dinámicas se entrelazaban con intereses económicos previos, la omisión o cuestionamientos al rol estatal, o el papel de terceros y élites locales que se beneficiaron de la reconfiguración territorial.",
+              "A lo largo de los siguientes días (del 2 al 6), cada miembro de nuestro equipo analizará una fuente distinta, desde informes de memoria histórica sobre Montes de María y El Salado hasta estudios de contrarreforma agraria, mapas de uso del suelo y crónicas periodísticas. ¿Confirmarán estas fuentes nuestra suposición inicial o nos mostrarán una red de complicidades e intereses mucho más compleja? El análisis comienza mañana.",
+            ],
+          },
+          {
+            numero: 2,
+            titulo: "",
+            subtitulo: "",
+            integrante: "",
+            parrafos: [],
+            fuente: {
+              titulo: "La masacre de El Salado",
+              tipo: "Informe de memoria histórica",
+              anio: "",
+              autor: "CNMH",
+              enlace:
+                "https://centrodememoriahistorica.gov.co/wp-content/uploads/2020/02/3.-La-masacre-de-El-Salado.pdf",
+            },
+            contextualizacion: {
+              titulo:
+                'CNMH (2023), "Un poco de verdad para poder respirar: trayectoria e impactos de los bloques paramilitares en Montes de María y Mojana"',
+              enlace:
+                "https://centrodememoriahistorica.gov.co/wp-content/uploads/2023/04/INFORME_MONTES-DE-MARIA-Y-MOJANA.pdf",
+            },
+            contexto: "",
+            perspectiva: "",
+            aporteALaTesis: "",
+            dilemaEtico: "",
+            cita: "",
+            imagen: {
+              src: "",
+              alt: "",
+              pieDeFoto: "",
+              credito: "",
+            },
+          },
+          {
+            numero: 3,
+            titulo: "",
+            subtitulo: "",
+            integrante: "",
+            parrafos: [],
+            fuente: {
+              titulo:
+                "Piden investigar papel de la Fuerza Pública en masacres de Montes de María",
+              tipo: "Prensa",
+              anio: "",
+              autor: "El Tiempo",
+              enlace:
+                "https://www.eltiempo.com/justicia/jep-colombia/piden-investigar-papel-de-la-fuerza-publica-en-masacres-de-montes-de-maria-516220",
+            },
+            contextualizacion: {
+              titulo: 'CODHES, "Los Montes de María bajo fuego"',
+              enlace:
+                "https://codhes.wordpress.com/wp-content/uploads/2021/01/montes-de-maria-bajo-fuego.pdf",
+            },
+            contexto: "",
+            perspectiva: "",
+            aporteALaTesis: "",
+            dilemaEtico: "",
+            cita: "",
+            imagen: {
+              src: "",
+              alt: "",
+              pieDeFoto: "",
+              credito: "",
+            },
+          },
+          {
+            numero: 4,
+            titulo: "",
+            subtitulo: "",
+            integrante: "",
+            parrafos: [],
+            fuente: {
+              titulo: "Los amigos que se apoderaron de los Montes de María",
+              tipo: "Prensa",
+              anio: "2017",
+              autor: "El Heraldo",
+              enlace:
+                "https://www.elheraldo.co/bolivar/2017/04/03/los-amigos-que-se-apoderaron-de-los-montes-de-maria-343767/",
+            },
+            contextualizacion: {
+              titulo:
+                '"Contrarreforma agraria y conflicto armado en los Montes de María, 1996-2016"',
+              enlace:
+                "https://www.researchgate.net/publication/337274281_Contrarreforma_agraria_y_conflicto_armado_en_los_Montes_de_Maria_1996-2016",
+            },
+            contexto: "",
+            perspectiva: "",
+            aporteALaTesis: "",
+            dilemaEtico: "",
+            cita: "",
+            imagen: {
+              src: "",
+              alt: "",
+              pieDeFoto: "",
+              credito: "",
+            },
+          },
+          {
+            numero: 5,
+            titulo: "",
+            subtitulo: "",
+            integrante: "",
+            parrafos: [],
+            fuente: {
+              titulo:
+                "Mapa de uso de la tierra en el conflicto (2002) y Mapa de vocación de uso de la tierra (2012)",
+              tipo: "Cartografía",
+              anio: "2002 / 2012",
+              autor: "IGAC",
+              enlace: "",
+            },
+            contextualizacion: {
+              titulo:
+                'DANE, Censo Nacional Agropecuario, y CNMH (2018), cap. 1, "La ocupación y apropiación del territorio"',
+              enlace: "",
+            },
+            contexto: "",
+            perspectiva: "",
+            aporteALaTesis: "",
+            dilemaEtico: "",
+            cita: "",
+            imagen: {
+              src: "",
+              alt: "",
+              pieDeFoto: "",
+              credito: "",
+            },
+          },
+          {
+            numero: 6,
+            titulo: "",
+            subtitulo: "",
+            integrante: "",
+            parrafos: [],
+            fuente: {
+              titulo: "[por definir]",
+              tipo: "",
+              anio: "",
+              autor: "",
+              enlace: "",
+            },
+            contextualizacion: {
+              titulo: "[por definir]",
+              enlace: "",
+            },
+            contexto: "",
+            perspectiva: "",
+            aporteALaTesis: "",
+            dilemaEtico: "",
+            cita: "",
+            imagen: {
+              src: "",
+              alt: "",
+              pieDeFoto: "",
+              credito: "",
+            },
+          },
+          {
+            numero: 7,
+            titulo: "Lo que cambió en nuestra mirada",
+            subtitulo: "Síntesis del recorrido y consolidación de la tesis",
+            integrante: "",
+            parrafos: [
+              "Llegamos al final de este recorrido de análisis y reflexión. Cuando iniciamos este blog en el Día 1, partíamos de una hipótesis inicial bastante directa: asumíamos que la concentración de tierras en los Montes de María entre 1990 y 2005 era el resultado directo del desplazamiento provocado por la confrontación armada entre los actores ilegales.",
+              "Sin embargo, el diálogo crítico con las fuentes analizadas a lo largo de la semana (del Día 2 al Día 6) transformó profundamente nuestra mirada inicial. La evidencia demostró que el fenómeno no responde a una sola causa, sino a una red de factores históricos, institucionales y económicos: al analizar las fuentes a lo largo de los días 2 al 6, nuestra hipótesis inicial se transformó; pasamos de ver la violencia de los noventa como un daño colateral a comprender que esta intensificó disputas agrarias históricas y dio rostro humano al despojo, mientras que los mapas técnicos del IGAC, el Censo Agropecuario del DANE, los análisis de contrarreforma agraria y la prensa evidenciaron cómo los conflictos de uso del suelo, los vacíos y cuestionamientos institucionales, y los intereses de terceros y élites locales facilitaron la reconfiguración económica y la concentración de la tierra.",
+              'Tras este riguroso tránsito por las fuentes, nuestra hipótesis inicial evolucionó de una suposición simple a una tesis consolidada: "En la región de los Montes de María entre 1990 y 2005, la presencia y accionar de los grupos armados al margen de la ley impulsó la concentración de la tenencia de la tierra al sustituir el control estatal y subordinar los derechos legales de propiedad campesina a través del despojo sistemático a favor de élites locales y terceros."',
+              "Este ejercicio nos deja una profunda enseñanza como futuros profesionales: entender el territorio exige mirar más allá de los mapas de producción y reconocer que detrás de cada hectárea hay memorias, derechos vulnerados y luchas por la justicia social que no podemos ignorar.",
+            ],
+            nuestraPostura: "",
+          },
+        ],
+
+        referencias: [
+          {
+            cita: "Ojeda, D., Guerra, P., Aguirre, C., & Díaz, H. (2016). Caminos condenados. Laguna Libros.",
+          },
+          {
+            cita: "IGAC (2002). Mapa Uso de la tierra en el conflicto.",
+            enlace:
+              "https://geoportal.igac.gov.co/sites/geoportal.igac.gov.co/files/geoportal/conflictos_uso.jpg",
+          },
+          {
+            cita: "IGAC (2012). Mapa Vocación uso de la tierra.",
+            enlace:
+              "https://geoportal.igac.gov.co/sites/geoportal.igac.gov.co/files/geoportal/vocacion_uso_tierras.pdf",
+          },
+          {
+            cita: "Guzmán, J. (2016). El país tiene 26,5 millones de hectáreas con vocación agro. La República.",
+            enlace:
+              "https://www.larepublica.co/economia/el-pais-tiene-265-millones-de-hectareas-con-vocacion-agro-2401746",
+          },
+          {
+            cita: "Rutas del conflicto. Tierra en disputa.",
+            enlace: "http://tierraendisputa.com/home",
+          },
+          {
+            cita: "CNMH. La masacre de El Salado.",
+            enlace:
+              "https://centrodememoriahistorica.gov.co/wp-content/uploads/2020/02/3.-La-masacre-de-El-Salado.pdf",
+          },
+          {
+            cita: "CNMH (2023). Un poco de verdad para poder respirar: trayectoria e impactos de los bloques paramilitares en Montes de María y Mojana.",
+            enlace:
+              "https://centrodememoriahistorica.gov.co/wp-content/uploads/2023/04/INFORME_MONTES-DE-MARIA-Y-MOJANA.pdf",
+          },
+          {
+            cita: "CNMH (2018). Cap. 1: La ocupación y apropiación del territorio. En Tierras: balance de la contribución del CNMH al esclarecimiento histórico (pp. 17-24).",
+            enlace:
+              "http://www.centrodememoriahistorica.gov.co/micrositios/balances-jep/tierras.html",
+          },
+          {
+            cita: "CNMH (2018). El Salado, Montes de María: tierra de luchas y contrastes.",
+            enlace:
+              "http://www.centrodememoriahistorica.gov.co/micrositios/un-viaje-por-la-memoria-historica/pdf/el-salado.pdf",
+          },
+          {
+            cita: "El Tiempo. Piden investigar papel de la Fuerza Pública en masacres de Montes de María.",
+            enlace:
+              "https://www.eltiempo.com/justicia/jep-colombia/piden-investigar-papel-de-la-fuerza-publica-en-masacres-de-montes-de-maria-516220",
+          },
+          {
+            cita: "CODHES. Los Montes de María bajo fuego (Serie Contribuciones a la Verdad).",
+            enlace:
+              "https://codhes.wordpress.com/wp-content/uploads/2021/01/montes-de-maria-bajo-fuego.pdf",
+          },
+          {
+            cita: "El Heraldo (2017). Los amigos que se apoderaron de los Montes de María.",
+            enlace:
+              "https://www.elheraldo.co/bolivar/2017/04/03/los-amigos-que-se-apoderaron-de-los-montes-de-maria-343767/",
+          },
+          {
+            cita: "Contrarreforma agraria y conflicto armado en los Montes de María, 1996-2016.",
+            enlace:
+              "https://www.researchgate.net/publication/337274281_Contrarreforma_agraria_y_conflicto_armado_en_los_Montes_de_Maria_1996-2016",
+          },
+          {
+            cita: "ANEIA, Universidad de los Andes. El efecto de la violencia en la población rural: caso Montes de María.",
+            enlace:
+              "https://aneia.uniandes.edu.co/el-efecto-de-la-violencia-en-la-poblacion-rural-caso-montes-de-maria-2/",
+          },
+          {
+            cita: "DANE. Censo Nacional Agropecuario.",
+            enlace:
+              "https://geoportal.dane.gov.co/geovisores/economia/censo-nacional-agropecuario/",
+          },
+          {
+            cita: "FIP. Acceso a la tierra y sustitución de cultivos ilícitos.",
+            enlace: "http://ideaspaz.org/media/website/FIP_NE_AccesosTierras.pdf",
+          },
+        ],
+
+        /* Lista editable de créditos de imágenes (vacía por defecto).
+           Ejemplo de ítem: { descripcion: "...", credito: "...", enlace: "..." } */
+        creditosImagenes: [],
+      };
+
+      /* =====================================================================
+         LÓGICA DE TIEMPO DE LECTURA (200 palabras por minuto, límite 08:00)
+         ===================================================================== */
+
+      const { useState, useEffect, useMemo, useRef, useCallback } = React;
+
+      const PALABRAS_POR_MINUTO = 200;
+      const LIMITE_LECTURA_SEGUNDOS = 8 * 60; // 480 s (08:00)
+      const UMBRAL_AMBAR_SEGUNDOS = 7 * 60; // 420 s (07:00)
+      const THEME_STORAGE_KEY = "montes-maria-tema";
+
+      function contarPalabrasTexto(texto) {
+        if (!texto) return 0;
+        const trimmed = String(texto).trim();
+        if (!trimmed) return 0;
+        return trimmed.split(/\s+/).filter(Boolean).length;
+      }
+
+      function diaTieneTexto(dia) {
+        const tieneParrafos =
+          Array.isArray(dia.parrafos) &&
+          dia.parrafos.some((p) => p && p.trim().length > 0);
+        const tieneAnalisis = Boolean(
+          (dia.contexto && dia.contexto.trim()) ||
+            (dia.perspectiva && dia.perspectiva.trim()) ||
+            (dia.aporteALaTesis && dia.aporteALaTesis.trim()) ||
+            (dia.dilemaEtico && dia.dilemaEtico.trim()) ||
+            (dia.cita && dia.cita.trim()) ||
+            (dia.nuestraPostura && dia.nuestraPostura.trim())
+        );
+        return tieneParrafos || tieneAnalisis;
+      }
+
+      function contarPalabrasDia(dia) {
+        if (!diaTieneTexto(dia)) return 0;
+        let total = 0;
+        if (Array.isArray(dia.parrafos)) {
+          for (const p of dia.parrafos) {
+            total += contarPalabrasTexto(p);
+          }
+        }
+        total += contarPalabrasTexto(dia.contexto);
+        total += contarPalabrasTexto(dia.perspectiva);
+        total += contarPalabrasTexto(dia.aporteALaTesis);
+        total += contarPalabrasTexto(dia.dilemaEtico);
+        total += contarPalabrasTexto(dia.cita);
+        total += contarPalabrasTexto(dia.nuestraPostura);
+        return total;
+      }
+
+      function calcularSegundosLecturaDia(dia) {
+        const palabras = contarPalabrasDia(dia);
+        if (palabras === 0) return 0;
+        return Math.max(1, Math.round((palabras / PALABRAS_POR_MINUTO) * 60));
+      }
+
+      function calcularSegundosTotales(dias) {
+        return dias.reduce(
+          (acc, dia) => acc + calcularSegundosLecturaDia(dia),
+          0
+        );
+      }
+
+      function formatearRelojMMSS(segundos) {
+        const safe = Math.max(0, Math.floor(segundos));
+        const mins = Math.floor(safe / 60);
+        const secs = safe % 60;
+        return (
+          String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0")
+        );
+      }
+
+      function formatearMinYS(segundos) {
+        const safe = Math.max(0, Math.round(segundos));
+        const mins = Math.floor(safe / 60);
+        const secs = safe % 60;
+        return mins + " min " + secs + " s";
+      }
+
+      function obtenerEstadoPresupuesto(totalSegundos) {
+        if (totalSegundos > LIMITE_LECTURA_SEGUNDOS) {
+          return { nivel: "rojo", etiqueta: "Supera el límite de 8 min" };
+        }
+        if (totalSegundos >= UMBRAL_AMBAR_SEGUNDOS) {
+          return { nivel: "ambar", etiqueta: "Entre 7 y 8 min" };
+        }
+        return { nivel: "verde", etiqueta: "Menor a 7 min" };
+      }
+
+      /* =====================================================================
+         ICONOS SVG AUTOCONTENIDOS
+         ===================================================================== */
+
+      function SvgIcon({ children, className = "h-4 w-4" }) {
+        return (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.85"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={className}
+            aria-hidden="true"
+          >
+            {children}
+          </svg>
+        );
+      }
+
+      const IconClock = ({ className }) => (
+        <SvgIcon className={className}>
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </SvgIcon>
+      );
+
+      const IconPlay = ({ className }) => (
+        <SvgIcon className={className}>
+          <polygon points="6 3 20 12 6 21 6 3" />
+        </SvgIcon>
+      );
+
+      const IconPause = ({ className }) => (
+        <SvgIcon className={className}>
+          <rect x="6" y="4" width="4" height="16" />
+          <rect x="14" y="4" width="4" height="16" />
+        </SvgIcon>
+      );
+
+      const IconRotateCcw = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+          <path d="M3 3v5h5" />
+        </SvgIcon>
+      );
+
+      const IconSun = ({ className }) => (
+        <SvgIcon className={className}>
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </SvgIcon>
+      );
+
+      const IconMoon = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+        </SvgIcon>
+      );
+
+      const IconCheckCircle = ({ className }) => (
+        <SvgIcon className={className}>
+          <circle cx="12" cy="12" r="10" />
+          <path d="m9 12 2 2 4-4" />
+        </SvgIcon>
+      );
+
+      const IconAlertCircle = ({ className }) => (
+        <SvgIcon className={className}>
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" x2="12" y1="8" y2="12" />
+          <line x1="12" x2="12.01" y1="16" y2="16" />
+        </SvgIcon>
+      );
+
+      const IconX = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </SvgIcon>
+      );
+
+      const IconBookOpen = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+        </SvgIcon>
+      );
+
+      const IconArrowDownRight = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="m7 7 10 10" />
+          <path d="M17 7v10H7" />
+        </SvgIcon>
+      );
+
+      const IconArrowLeft = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </SvgIcon>
+      );
+
+      const IconArrowRight = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="M5 12h14" />
+          <path d="m12 5 7 7-7 7" />
+        </SvgIcon>
+      );
+
+      const IconCheck = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="M20 6 9 17l-5-5" />
+        </SvgIcon>
+      );
+
+      const IconFileText = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+          <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+          <path d="M10 9H8" />
+          <path d="M16 13H8" />
+          <path d="M16 17H8" />
+        </SvgIcon>
+      );
+
+      const IconExternalLink = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="M15 3h6v6" />
+          <path d="M10 14 21 3" />
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+        </SvgIcon>
+      );
+
+      const IconBookMarked = ({ className }) => (
+        <SvgIcon className={className}>
+          <path d="M10 2v8l3-3 3 3V2" />
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
+        </SvgIcon>
+      );
+
+      /* =====================================================================
+         COMPONENTES DE INTERFAZ
+         ===================================================================== */
+
+      function ReadingClockBar({
+        elapsedSeconds,
+        isRunning,
+        hasStarted,
+        totalEstimatedSeconds,
+        isDark,
+        noticeDismissed,
+        onToggleRun,
+        onReset,
+        onToggleTheme,
+        onDismissNotice,
+      }) {
+        const progressPct = Math.min(
+          100,
+          (elapsedSeconds / LIMITE_LECTURA_SEGUNDOS) * 100
+        );
+        const completedEightMinutes =
+          elapsedSeconds >= LIMITE_LECTURA_SEGUNDOS;
+        const budget = obtenerEstadoPresupuesto(totalEstimatedSeconds);
+
+        const budgetColorClasses =
+          budget.nivel === "rojo"
+            ? "text-[#992B2B] dark:text-[#E57B7B]"
+            : budget.nivel === "ambar"
+            ? "text-[#8C540B] dark:text-[#E0A346]"
+            : "text-[#2F5E38] dark:text-[#7BB887]";
+
+        return (
+          <header
+            className="border-b border-[var(--border-hairline)] bg-[var(--bg-canvas)]/95 backdrop-blur-sm"
+            aria-label="Barra de control y tiempo de lectura"
+          >
+            <div className="mx-auto max-w-6xl px-3 sm:px-6">
+              <div className="flex min-h-[48px] items-center justify-between gap-2 py-1.5 sm:gap-4 sm:py-2">
+                <div className="flex min-w-0 items-center gap-2 sm:gap-3">
+                  <div className="flex items-center gap-1.5 whitespace-nowrap shrink-0">
+                    <IconClock className="h-4 w-4 text-[var(--accent-olive)]" />
+                    <span className="hidden text-xs font-medium text-[var(--text-secondary)] sm:inline">
+                      Tiempo de lectura
+                    </span>
+                    <span
+                      className="font-mono-clock text-sm font-medium text-[var(--text-primary)] sm:text-base"
+                      aria-live="off"
+                    >
+                      {formatearRelojMMSS(elapsedSeconds)}
+                    </span>
+                    <span className="font-mono-clock text-xs text-[var(--text-muted)]">
+                      / 08:00
+                    </span>
+                  </div>
+
+                  <div
+                    className="hidden h-1.5 w-24 overflow-hidden rounded-full bg-[var(--border-hairline)] md:block lg:w-32"
+                    role="progressbar"
+                    aria-label="Progreso hacia el límite de 8 minutos"
+                    aria-valuemin={0}
+                    aria-valuemax={LIMITE_LECTURA_SEGUNDOS}
+                    aria-valuenow={Math.min(
+                      elapsedSeconds,
+                      LIMITE_LECTURA_SEGUNDOS
+                    )}
+                  >
+                    <div
+                      className="h-full bg-[var(--accent-olive)] transition-[width] duration-300"
+                      style={{ width: progressPct + "%" }}
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      type="button"
+                      onClick={onToggleRun}
+                      className="inline-flex min-h-[34px] items-center gap-1 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-2.5 py-1 text-xs font-medium text-[var(--text-primary)] transition-colors hover:border-[var(--border-strong)] hover:bg-[var(--bg-surface)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] whitespace-nowrap shrink-0 cursor-pointer"
+                      aria-label={
+                        isRunning
+                          ? "Pausar cronómetro de lectura"
+                          : hasStarted
+                          ? "Reanudar cronómetro de lectura"
+                          : "Iniciar cronómetro de lectura"
+                      }
+                    >
+                      {isRunning ? (
+                        <>
+                          <IconPause className="h-3.5 w-3.5" />
+                          <span>Pausa</span>
+                        </>
+                      ) : (
+                        <>
+                          <IconPlay className="h-3.5 w-3.5" />
+                          <span>{hasStarted ? "Reanudar" : "Iniciar"}</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={onReset}
+                      className="inline-flex min-h-[34px] items-center gap-1 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-2 py-1 text-xs font-medium text-[var(--text-secondary)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--text-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] whitespace-nowrap shrink-0 cursor-pointer"
+                      aria-label="Reiniciar cronómetro a cero"
+                      title="Reiniciar cronómetro"
+                    >
+                      <IconRotateCcw className="h-3.5 w-3.5" />
+                      <span className="hidden sm:inline">Reiniciar</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                  <div
+                    className="hidden items-center gap-2 text-xs sm:flex"
+                    aria-label={
+                      "Total estimado de lectura: " +
+                      formatearMinYS(totalEstimatedSeconds) +
+                      ". Estado: " +
+                      budget.etiqueta
+                    }
+                  >
+                    <span className="text-[var(--text-muted)] whitespace-nowrap">
+                      Total estimado:
+                    </span>
+                    <span className="font-mono-clock font-medium text-[var(--text-primary)] whitespace-nowrap">
+                      {formatearMinYS(totalEstimatedSeconds)}
+                    </span>
+                    <span
+                      className={
+                        "inline-flex items-center gap-1 font-medium whitespace-nowrap " +
+                        budgetColorClasses
+                      }
+                    >
+                      {budget.nivel === "rojo" ? (
+                        <IconAlertCircle className="h-3.5 w-3.5 shrink-0" />
+                      ) : (
+                        <IconCheckCircle className="h-3.5 w-3.5 shrink-0" />
+                      )}
+                      <span>{budget.etiqueta}</span>
+                    </span>
+                  </div>
+
+                  <div
+                    className={
+                      "flex items-center gap-1 text-[11px] font-medium sm:hidden " +
+                      budgetColorClasses
+                    }
+                    title={
+                      "Total estimado: " +
+                      formatearMinYS(totalEstimatedSeconds) +
+                      " (" +
+                      budget.etiqueta +
+                      ")"
+                    }
+                  >
+                    <span className="font-mono-clock">
+                      Est. {formatearRelojMMSS(totalEstimatedSeconds)}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={onToggleTheme}
+                    aria-pressed={isDark}
+                    aria-label={
+                      isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"
+                    }
+                    title={isDark ? "Modo claro" : "Modo oscuro"}
+                    className="inline-flex min-h-[34px] min-w-[34px] items-center justify-center rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-2 py-1 text-xs font-medium text-[var(--text-secondary)] transition-colors hover:border-[var(--border-strong)] hover:text-[var(--text-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] cursor-pointer"
+                  >
+                    {isDark ? (
+                      <IconSun className="h-4 w-4" />
+                    ) : (
+                      <IconMoon className="h-4 w-4" />
+                    )}
+                    <span className="sr-only">
+                      {isDark ? "Modo claro" : "Modo oscuro"}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <div
+                className="mb-1 h-1 w-full overflow-hidden rounded-full bg-[var(--border-hairline)] md:hidden"
+                aria-hidden="true"
+              >
+                <div
+                  className="h-full bg-[var(--accent-olive)] transition-[width] duration-300"
+                  style={{ width: progressPct + "%" }}
+                />
+              </div>
+
+              {completedEightMinutes && !noticeDismissed && (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="mb-1.5 flex items-center justify-between gap-3 border-t border-[var(--border-hairline)] pt-1.5 text-xs text-[var(--accent-ochre)]"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <IconCheckCircle className="h-3.5 w-3.5 shrink-0" />
+                    <span>
+                      Completaste los 8 minutos. Puedes continuar leyendo
+                      libremente.
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={onDismissNotice}
+                    className="inline-flex h-6 w-6 items-center justify-center rounded text-[var(--text-muted)] hover:text-[var(--text-primary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-olive)] cursor-pointer"
+                    aria-label="Cerrar aviso de 8 minutos"
+                  >
+                    <IconX className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </header>
+        );
+      }
+
+      function CoverSection({ proyecto, onStartReading }) {
+        return (
+          <section
+            id="portada"
+            aria-labelledby="titulo-principal"
+            className="border-b border-[var(--border-hairline)] bg-[var(--bg-canvas)]"
+          >
+            <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
+              <div className="max-w-4xl">
+                <p className="text-xs font-medium tracking-wider text-[var(--text-muted)] sm:text-sm">
+                  <span>{proyecto.grupo}</span>
+                  <span className="mx-2" aria-hidden="true">
+                    ·
+                  </span>
+                  <span>{proyecto.curso}</span>
+                </p>
+
+                <h1
+                  id="titulo-principal"
+                  className="font-serif-editorial text-balance mt-3 text-3xl font-semibold leading-tight tracking-tight text-[var(--text-primary)] sm:text-4xl lg:text-[2.75rem]"
+                >
+                  {proyecto.titulo}
+                </h1>
+
+                {proyecto.subtitulo && proyecto.subtitulo.trim() && (
+                  <p className="font-serif-editorial mt-2.5 text-lg leading-snug text-[var(--text-secondary)] sm:text-xl">
+                    {proyecto.subtitulo}
+                  </p>
+                )}
+
+                <p className="mt-3 text-sm text-[var(--text-muted)] sm:text-base">
+                  {proyecto.audiencia}
+                </p>
+
+                <div className="mt-7 rounded-sm border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 sm:p-6">
+                  <h2 className="text-xs font-semibold tracking-wider text-[var(--accent-ochre)] uppercase">
+                    Pregunta de indagación
+                  </h2>
+                  <p className="font-serif-editorial mt-2 text-lg leading-relaxed text-[var(--text-primary)] sm:text-xl">
+                    {proyecto.preguntaIndagacion}
+                  </p>
+                </div>
+
+                <div className="mt-7 border-t border-[var(--border-hairline)] pt-5">
+                  <h2 className="text-xs font-semibold tracking-wider text-[var(--text-muted)] uppercase">
+                    Equipo investigador
+                  </h2>
+                  <ul className="mt-3 grid grid-cols-1 gap-x-8 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
+                    {proyecto.integrantes.map((persona) => (
+                      <li
+                        key={persona.nombre}
+                        className="flex flex-col border-b border-[var(--border-hairline)]/60 pb-1.5 sm:border-b-0 sm:pb-0"
+                      >
+                        <span className="font-medium text-[var(--text-primary)]">
+                          {persona.nombre}
+                        </span>
+                        {persona.carrera && persona.carrera.trim() && (
+                          <span className="text-xs text-[var(--text-muted)]">
+                            {persona.carrera}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mt-8 flex flex-wrap items-center gap-4">
+                  <button
+                    type="button"
+                    onClick={onStartReading}
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded bg-[var(--accent-olive)] px-6 py-2.5 text-sm font-semibold text-[#FBF9F4] transition-colors hover:bg-[var(--accent-olive-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] cursor-pointer whitespace-nowrap"
+                  >
+                    <IconBookOpen className="h-4 w-4" />
+                    <span>Empezar lectura</span>
+                  </button>
+
+                  <a
+                    href="#referencias"
+                    className="inline-flex min-h-[44px] items-center gap-1.5 text-sm font-medium text-[var(--text-secondary)] underline decoration-[var(--border-strong)] underline-offset-4 transition-colors hover:text-[var(--text-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] whitespace-nowrap"
+                  >
+                    <span>Referencias y créditos</span>
+                    <IconArrowDownRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      function MobileTimelineStrip({
+        dias,
+        activeDay,
+        visitedDays,
+        onSelectDay,
+      }) {
+        return (
+          <nav
+            aria-label="Línea de tiempo de lectura (7 días)"
+            className="border-b border-[var(--border-hairline)] bg-[var(--bg-canvas)]/95 backdrop-blur-sm lg:hidden"
+          >
+            <div className="mx-auto max-w-6xl px-3 py-1 sm:px-6">
+              <div className="relative flex items-center justify-between">
+                <div
+                  className="pointer-events-none absolute right-5 left-5 top-1/2 h-px -translate-y-1/2 bg-[var(--border-hairline)]"
+                  aria-hidden="true"
+                />
+                {dias.map((dia) => {
+                  const isActive = dia.numero === activeDay;
+                  const isVisited = visitedDays.has(dia.numero);
+                  const hasText = diaTieneTexto(dia);
+                  const labelBase =
+                    (dia.titulo && dia.titulo.trim()) || "Día " + dia.numero;
+
+                  return (
+                    <button
+                      key={dia.numero}
+                      type="button"
+                      onClick={() => onSelectDay(dia.numero)}
+                      aria-current={isActive ? "step" : undefined}
+                      aria-label={
+                        "Día " +
+                        dia.numero +
+                        ": " +
+                        labelBase +
+                        (isVisited ? ", visto" : "") +
+                        (!hasText ? ", se publicará pronto" : "")
+                      }
+                      className="relative z-10 flex min-h-[38px] min-w-[36px] items-center justify-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] cursor-pointer"
+                    >
+                      <span
+                        className={
+                          "flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold transition-colors " +
+                          (isActive
+                            ? "border-[var(--accent-olive)] bg-[var(--accent-olive)] text-[#FBF9F4]"
+                            : isVisited
+                            ? "border-[var(--accent-olive)] bg-[var(--accent-olive-soft)] text-[var(--accent-olive)]"
+                            : "border-[var(--border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] hover:border-[var(--accent-olive)]")
+                        }
+                      >
+                        {isVisited && !isActive ? (
+                          <IconCheck className="h-3.5 w-3.5" />
+                        ) : (
+                          <span className="font-mono-clock">{dia.numero}</span>
+                        )}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </nav>
+        );
+      }
+
+      function DesktopTimelineSidebar({
+        dias,
+        activeDay,
+        visitedDays,
+        onSelectDay,
+      }) {
+        const totalVistos = visitedDays.size;
+
+        return (
+          <aside className="hidden lg:block lg:w-64 lg:shrink-0">
+            <nav
+              aria-label="Línea de tiempo de lectura (7 días)"
+              className="sticky top-20 border-r border-[var(--border-hairline)] pr-6"
+            >
+              <div className="flex items-baseline justify-between border-b border-[var(--border-hairline)] pb-3">
+                <h2 className="text-xs font-semibold tracking-wider text-[var(--text-muted)] uppercase">
+                  Línea de tiempo
+                </h2>
+                <span className="font-mono-clock text-xs text-[var(--text-muted)]">
+                  {totalVistos}/7 vistos
+                </span>
+              </div>
+
+              <ol className="relative mt-5 space-y-3">
+                <div
+                  className="pointer-events-none absolute top-4 bottom-4 left-[15px] w-px bg-[var(--border-hairline)]"
+                  aria-hidden="true"
+                />
+                {dias.map((dia) => {
+                  const isActive = dia.numero === activeDay;
+                  const isVisited = visitedDays.has(dia.numero);
+                  const hasText = diaTieneTexto(dia);
+                  const tituloCorto =
+                    dia.titulo && dia.titulo.trim()
+                      ? dia.titulo
+                      : dia.fuente && dia.fuente.autor
+                      ? "Fuente: " + dia.fuente.autor
+                      : "Por publicar";
+
+                  return (
+                    <li key={dia.numero} className="relative">
+                      <button
+                        type="button"
+                        onClick={() => onSelectDay(dia.numero)}
+                        aria-current={isActive ? "step" : undefined}
+                        className={
+                          "group flex w-full items-start gap-3 rounded py-1.5 pr-2 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] cursor-pointer " +
+                          (isActive
+                            ? "text-[var(--text-primary)]"
+                            : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]")
+                        }
+                      >
+                        <span
+                          className={
+                            "relative z-10 mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-xs font-semibold transition-colors " +
+                            (isActive
+                              ? "border-[var(--accent-olive)] bg-[var(--accent-olive)] text-[#FBF9F4]"
+                              : isVisited
+                              ? "border-[var(--accent-olive)] bg-[var(--accent-olive-soft)] text-[var(--accent-olive)]"
+                              : "border-[var(--border-strong)] bg-[var(--bg-canvas)] text-[var(--text-secondary)] group-hover:border-[var(--accent-olive)]")
+                          }
+                        >
+                          {isVisited && !isActive ? (
+                            <IconCheck className="h-3.5 w-3.5" />
+                          ) : (
+                            <span className="font-mono-clock">
+                              {dia.numero}
+                            </span>
+                          )}
+                        </span>
+
+                        <span className="min-w-0 flex-1">
+                          <span className="flex items-center justify-between gap-2">
+                            <span
+                              className={
+                                "text-xs font-semibold " +
+                                (isActive
+                                  ? "text-[var(--accent-olive)]"
+                                  : "text-[var(--text-muted)]")
+                              }
+                            >
+                              Día {dia.numero}
+                            </span>
+                            {isVisited && (
+                              <span className="text-[11px] font-medium text-[var(--accent-olive)]">
+                                Visto
+                              </span>
+                            )}
+                          </span>
+                          <span
+                            className={
+                              "mt-0.5 block text-sm leading-snug " +
+                              (isActive ? "font-semibold" : "font-normal") +
+                              (!hasText
+                                ? " italic text-[var(--text-muted)]"
+                                : "")
+                            }
+                          >
+                            {tituloCorto}
+                          </span>
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              <div className="mt-6 flex flex-col gap-2 border-t border-[var(--border-hairline)] pt-4 text-xs">
+                <a
+                  href="#portada"
+                  className="text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-olive)]"
+                >
+                  ↑ Volver a la portada
+                </a>
+                <a
+                  href="#referencias"
+                  className="text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-olive)]"
+                >
+                  ↓ Referencias y créditos
+                </a>
+              </div>
+            </nav>
+          </aside>
+        );
+      }
+
+      function renderTextoMultiparrafo(texto) {
+        const bloques = String(texto)
+          .split(/\n\s*\n/)
+          .map((b) => b.trim())
+          .filter(Boolean);
+
+        return bloques.map((bloque, idx) => (
+          <p
+            key={idx}
+            className="prose-editorial text-[var(--text-primary)] [&:not(:first-child)]:mt-4"
+          >
+            {bloque}
+          </p>
+        ));
+      }
+
+      function DayReader({
+        dia,
+        totalDias,
+        tesis,
+        isVisited,
+        onMarkVisited,
+        onPrev,
+        onNext,
+      }) {
+        const sentinelRef = useRef(null);
+        const [imageError, setImageError] = useState(false);
+
+        const hasText = diaTieneTexto(dia);
+        const readingSeconds = calcularSegundosLecturaDia(dia);
+        const showTesis = dia.numero === 1 || dia.numero === 7;
+        const isSourceDay = dia.numero >= 2 && dia.numero <= 6;
+        const tituloMostrado =
+          (dia.titulo && dia.titulo.trim()) || "Día " + dia.numero;
+
+        useEffect(() => {
+          setImageError(false);
+        }, [dia.numero, dia.imagen && dia.imagen.src]);
+
+        useEffect(() => {
+          const el = sentinelRef.current;
+          if (!el || isVisited) return;
+
+          if (typeof IntersectionObserver === "undefined") {
+            onMarkVisited(dia.numero);
+            return;
+          }
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              for (const entry of entries) {
+                if (entry.isIntersecting) {
+                  onMarkVisited(dia.numero);
+                  observer.disconnect();
+                  break;
+                }
+              }
+            },
+            { threshold: 0.5 }
+          );
+
+          observer.observe(el);
+          return () => observer.disconnect();
+        }, [dia.numero, isVisited, onMarkVisited]);
+
+        const metaFuente = dia.fuente
+          ? [dia.fuente.autor, dia.fuente.tipo, dia.fuente.anio]
+              .map((s) => (s ? String(s).trim() : ""))
+              .filter(Boolean)
+          : [];
+
+        return (
+          <article
+            aria-labelledby={"dia-titulo-" + dia.numero}
+            className="min-w-0 flex-1 max-w-[68ch]"
+          >
+            <header className="border-b border-[var(--border-hairline)] pb-6">
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-medium text-[var(--text-muted)]">
+                <span className="font-semibold tracking-wider text-[var(--accent-olive)] uppercase">
+                  Día {dia.numero} de {totalDias}
+                </span>
+
+                {dia.integrante && dia.integrante.trim() && (
+                  <>
+                    <span aria-hidden="true">·</span>
+                    <span>Por {dia.integrante}</span>
+                  </>
+                )}
+
+                {isVisited && (
+                  <>
+                    <span aria-hidden="true">·</span>
+                    <span className="inline-flex items-center gap-1 font-semibold text-[var(--accent-olive)]">
+                      <IconCheck className="h-3.5 w-3.5" />
+                      <span>Visto</span>
+                    </span>
+                  </>
+                )}
+              </div>
+
+              <h2
+                id={"dia-titulo-" + dia.numero}
+                className="font-serif-editorial text-balance mt-2 text-2xl font-semibold leading-tight text-[var(--text-primary)] sm:text-3xl"
+              >
+                {tituloMostrado}
+              </h2>
+
+              {dia.subtitulo && dia.subtitulo.trim() && (
+                <p className="mt-2 text-base text-[var(--text-secondary)]">
+                  {dia.subtitulo}
+                </p>
+              )}
+
+              {hasText && (
+                <p className="mt-3 text-xs font-medium text-[var(--text-muted)]">
+                  Lectura estimada:{" "}
+                  <span className="font-mono-clock text-[var(--text-secondary)]">
+                    {formatearMinYS(readingSeconds)}
+                  </span>
+                </p>
+              )}
+            </header>
+
+            {showTesis && (
+              <section
+                aria-label="Tesis central de la investigación"
+                className="mt-7 rounded-sm border border-[var(--border-strong)] bg-[var(--bg-surface)] p-5 sm:p-6"
+              >
+                <p className="text-xs font-semibold tracking-wider text-[var(--accent-ochre)] uppercase">
+                  Tesis central
+                </p>
+                <p className="font-serif-editorial mt-2 text-[17px] leading-relaxed font-medium text-[var(--text-primary)] sm:text-lg">
+                  “{tesis}”
+                </p>
+              </section>
+            )}
+
+            {isSourceDay && (
+              <section
+                aria-label="Ficha de la fuente analizada"
+                className="mt-7 space-y-4"
+              >
+                {dia.fuente &&
+                  dia.fuente.titulo &&
+                  dia.fuente.titulo.trim() && (
+                    <div className="rounded-sm border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-5">
+                      <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-[var(--accent-ochre)] uppercase">
+                        <IconFileText className="h-3.5 w-3.5" />
+                        <span>La fuente</span>
+                      </div>
+
+                      <h3 className="font-serif-editorial mt-2 text-lg font-semibold leading-snug text-[var(--text-primary)]">
+                        {dia.fuente.titulo}
+                      </h3>
+
+                      {metaFuente.length > 0 && (
+                        <p className="mt-1.5 text-xs text-[var(--text-muted)]">
+                          {metaFuente.map((item, idx) => (
+                            <span key={idx}>
+                              {idx > 0 && (
+                                <span className="mx-1.5" aria-hidden="true">
+                                  ·
+                                </span>
+                              )}
+                              {item}
+                            </span>
+                          ))}
+                        </p>
+                      )}
+
+                      {dia.fuente.enlace && dia.fuente.enlace.trim() && (
+                        <a
+                          href={dia.fuente.enlace}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--accent-olive)] underline decoration-[var(--border-strong)] underline-offset-4 transition-colors hover:text-[var(--accent-olive-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)]"
+                        >
+                          <span>Abrir fuente en pestaña nueva</span>
+                          <IconExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  )}
+
+                {dia.contextualizacion &&
+                  dia.contextualizacion.titulo &&
+                  dia.contextualizacion.titulo.trim() && (
+                    <p className="border-b border-[var(--border-hairline)] pb-4 text-sm leading-relaxed text-[var(--text-secondary)]">
+                      <span className="font-semibold text-[var(--text-primary)]">
+                        Se lee junto con:{" "}
+                      </span>
+                      {dia.contextualizacion.enlace &&
+                      dia.contextualizacion.enlace.trim() ? (
+                        <a
+                          href={dia.contextualizacion.enlace}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-baseline gap-1 text-[var(--accent-olive)] underline decoration-[var(--border-strong)] underline-offset-4 hover:text-[var(--accent-olive-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)]"
+                        >
+                          <span>{dia.contextualizacion.titulo}</span>
+                          <IconExternalLink className="inline h-3 w-3 shrink-0 self-center" />
+                        </a>
+                      ) : (
+                        <span>{dia.contextualizacion.titulo}</span>
+                      )}
+                    </p>
+                  )}
+              </section>
+            )}
+
+            {!hasText ? (
+              <div
+                role="status"
+                className="mt-8 rounded-sm border border-dashed border-[var(--border-strong)] bg-[var(--bg-surface)]/60 px-6 py-10 text-center"
+              >
+                <IconBookMarked className="mx-auto h-5 w-5 text-[var(--text-muted)]" />
+                <p className="font-serif-editorial mt-3 text-lg font-medium text-[var(--text-primary)]">
+                  Este día se publicará pronto
+                </p>
+                <p className="mt-1 text-sm text-[var(--text-muted)]">
+                  La ficha de la fuente y su lectura de contextualización ya
+                  están registradas para el análisis del equipo.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-7 space-y-7">
+                {dia.imagen &&
+                  dia.imagen.src &&
+                  dia.imagen.src.trim() &&
+                  !imageError && (
+                    <figure className="overflow-hidden rounded-sm border border-[var(--border-hairline)] bg-[var(--bg-surface)]">
+                      <img
+                        src={dia.imagen.src}
+                        alt={
+                          (dia.imagen.alt && dia.imagen.alt.trim()) ||
+                          (dia.imagen.pieDeFoto &&
+                            dia.imagen.pieDeFoto.trim()) ||
+                          "Documento visual del Día " + dia.numero
+                        }
+                        referrerPolicy="no-referrer"
+                        onError={() => setImageError(true)}
+                        className="h-auto w-full object-cover"
+                      />
+                      {((dia.imagen.pieDeFoto && dia.imagen.pieDeFoto.trim()) ||
+                        (dia.imagen.credito && dia.imagen.credito.trim())) && (
+                        <figcaption className="border-t border-[var(--border-hairline)] px-4 py-2.5 text-xs text-[var(--text-muted)]">
+                          {dia.imagen.pieDeFoto &&
+                            dia.imagen.pieDeFoto.trim() && (
+                              <span className="font-serif-editorial italic text-[var(--text-secondary)]">
+                                {dia.imagen.pieDeFoto}
+                              </span>
+                            )}
+                          {dia.imagen.pieDeFoto &&
+                            dia.imagen.pieDeFoto.trim() &&
+                            dia.imagen.credito &&
+                            dia.imagen.credito.trim() && (
+                              <span className="mx-1.5" aria-hidden="true">
+                                ·
+                              </span>
+                            )}
+                          {dia.imagen.credito && dia.imagen.credito.trim() && (
+                            <span>Crédito: {dia.imagen.credito}</span>
+                          )}
+                        </figcaption>
+                      )}
+                    </figure>
+                  )}
+
+                {Array.isArray(dia.parrafos) &&
+                  dia.parrafos.some((p) => p && p.trim().length > 0) && (
+                    <div className="space-y-5">
+                      {dia.parrafos
+                        .filter((p) => p && p.trim().length > 0)
+                        .map((parrafo, index) => (
+                          <p
+                            key={index}
+                            className={
+                              "prose-editorial text-[var(--text-primary)] " +
+                              (index === 0 ? "drop-cap" : "")
+                            }
+                          >
+                            {parrafo}
+                          </p>
+                        ))}
+                    </div>
+                  )}
+
+                {dia.contexto && dia.contexto.trim() && (
+                  <section className="border-t border-[var(--border-hairline)] pt-5">
+                    <h3 className="text-xs font-semibold tracking-wider text-[var(--accent-ochre)] uppercase">
+                      Contexto: quién habla y cuándo
+                    </h3>
+                    <div className="mt-2.5">
+                      {renderTextoMultiparrafo(dia.contexto)}
+                    </div>
+                  </section>
+                )}
+
+                {dia.perspectiva && dia.perspectiva.trim() && (
+                  <section className="border-t border-[var(--border-hairline)] pt-5">
+                    <h3 className="text-xs font-semibold tracking-wider text-[var(--accent-ochre)] uppercase">
+                      Perspectiva
+                    </h3>
+                    <div className="mt-2.5">
+                      {renderTextoMultiparrafo(dia.perspectiva)}
+                    </div>
+                  </section>
+                )}
+
+                {dia.aporteALaTesis && dia.aporteALaTesis.trim() && (
+                  <section className="border-t border-[var(--border-hairline)] pt-5">
+                    <h3 className="text-xs font-semibold tracking-wider text-[var(--accent-ochre)] uppercase">
+                      Qué aporta a nuestra tesis
+                    </h3>
+                    <div className="mt-2.5">
+                      {renderTextoMultiparrafo(dia.aporteALaTesis)}
+                    </div>
+                  </section>
+                )}
+
+                {dia.dilemaEtico && dia.dilemaEtico.trim() && (
+                  <section className="border-t border-[var(--border-hairline)] pt-5">
+                    <h3 className="text-xs font-semibold tracking-wider text-[var(--accent-ochre)] uppercase">
+                      Dilema ético
+                    </h3>
+                    <div className="mt-2.5">
+                      {renderTextoMultiparrafo(dia.dilemaEtico)}
+                    </div>
+                  </section>
+                )}
+
+                {dia.cita && dia.cita.trim() && (
+                  <blockquote className="border-y border-[var(--border-strong)] py-5">
+                    <p className="font-serif-editorial text-xl leading-relaxed italic text-[var(--text-primary)]">
+                      “{dia.cita.trim()}”
+                    </p>
+                  </blockquote>
+                )}
+
+                {dia.numero === 7 &&
+                  dia.nuestraPostura &&
+                  dia.nuestraPostura.trim() && (
+                    <section className="rounded-sm border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-5 sm:p-6">
+                      <h3 className="text-xs font-semibold tracking-wider text-[var(--accent-olive)] uppercase">
+                        Nuestra postura
+                      </h3>
+                      <div className="mt-2.5">
+                        {renderTextoMultiparrafo(dia.nuestraPostura)}
+                      </div>
+                    </section>
+                  )}
+              </div>
+            )}
+
+            <div
+              ref={sentinelRef}
+              className="mt-8 flex items-center justify-between border-t border-[var(--border-hairline)] pt-4 text-xs text-[var(--text-muted)]"
+            >
+              <span>
+                {isVisited
+                  ? "Día " + dia.numero + " marcado como visto"
+                  : "Fin del Día " + dia.numero}
+              </span>
+              {isVisited && (
+                <span className="inline-flex items-center gap-1 font-medium text-[var(--accent-olive)]">
+                  <IconCheck className="h-3.5 w-3.5" />
+                  <span>Lectura registrada</span>
+                </span>
+              )}
+            </div>
+
+            <nav
+              aria-label="Navegación entre días"
+              className="mt-6 flex flex-col gap-4 border-t border-[var(--border-hairline)] pt-6 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={onPrev}
+                  disabled={dia.numero <= 1}
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-4 py-2 text-sm font-medium text-[var(--text-primary)] transition-colors hover:border-[var(--border-strong)] hover:bg-[var(--bg-surface)] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] cursor-pointer whitespace-nowrap"
+                >
+                  <IconArrowLeft className="h-4 w-4" />
+                  <span>Anterior</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={onNext}
+                  disabled={dia.numero >= totalDias}
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded bg-[var(--accent-olive)] px-4 py-2 text-sm font-medium text-[#FBF9F4] transition-colors hover:bg-[var(--accent-olive-hover)] disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] cursor-pointer whitespace-nowrap"
+                >
+                  <span>Siguiente</span>
+                  <IconArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+
+              <p className="text-xs text-[var(--text-muted)]">
+                Atajo de teclado: flechas ← y →
+              </p>
+            </nav>
+          </article>
+        );
+      }
+
+      function ReferencesSection({ referencias, creditosImagenes, proyecto }) {
+        const creditosValidos = (creditosImagenes || []).filter(
+          (c) =>
+            (c.descripcion && c.descripcion.trim()) ||
+            (c.credito && c.credito.trim())
+        );
+
+        return (
+          <section
+            id="referencias"
+            aria-labelledby="titulo-referencias"
+            className="border-t border-[var(--border-hairline)] bg-[var(--bg-surface)]/55"
+          >
+            <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
+              <div className="max-w-4xl">
+                <p className="text-xs font-semibold tracking-wider text-[var(--accent-ochre)] uppercase">
+                  Archivo bibliográfico
+                </p>
+                <h2
+                  id="titulo-referencias"
+                  className="font-serif-editorial mt-2 text-2xl font-semibold text-[var(--text-primary)] sm:text-3xl"
+                >
+                  Referencias y créditos
+                </h2>
+                <p className="mt-2 text-sm text-[var(--text-secondary)]">
+                  Fuentes primarias, informes de memoria histórica, prensa y
+                  cartografía consultadas para este ejercicio académico. Los
+                  enlaces se abren en una pestaña nueva.
+                </p>
+
+                <ol className="mt-7 divide-y divide-[var(--border-hairline)] border-y border-[var(--border-hairline)]">
+                  {referencias.map((ref, idx) => (
+                    <li
+                      key={idx}
+                      className="flex flex-col gap-1.5 py-3.5 text-sm sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+                    >
+                      <span className="leading-relaxed text-[var(--text-primary)]">
+                        <span className="font-mono-clock mr-2 text-xs text-[var(--text-muted)]">
+                          {String(idx + 1).padStart(2, "0")}.
+                        </span>
+                        {ref.cita}
+                      </span>
+
+                      {ref.enlace && ref.enlace.trim() && (
+                        <a
+                          href={ref.enlace}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-[var(--accent-olive)] underline decoration-[var(--border-strong)] underline-offset-4 transition-colors hover:text-[var(--accent-olive-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-olive)] whitespace-nowrap"
+                        >
+                          <span>Consultar enlace</span>
+                          <IconExternalLink className="h-3.5 w-3.5" />
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+
+                {creditosValidos.length > 0 && (
+                  <div className="mt-9">
+                    <h3 className="text-xs font-semibold tracking-wider text-[var(--text-muted)] uppercase">
+                      Créditos de imágenes
+                    </h3>
+                    <ul className="mt-3 divide-y divide-[var(--border-hairline)] border-y border-[var(--border-hairline)] text-sm">
+                      {creditosValidos.map((item, idx) => (
+                        <li
+                          key={idx}
+                          className="flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4"
+                        >
+                          <span className="text-[var(--text-primary)]">
+                            {item.descripcion}{" "}
+                            {item.credito && (
+                              <span className="text-[var(--text-secondary)]">
+                                — {item.credito}
+                              </span>
+                            )}
+                          </span>
+                          {item.enlace && item.enlace.trim() && (
+                            <a
+                              href={item.enlace}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-[var(--accent-olive)] underline underline-offset-4 whitespace-nowrap"
+                            >
+                              <span>Fuente</span>
+                              <IconExternalLink className="h-3.5 w-3.5" />
+                            </a>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <footer className="mt-10 border-t border-[var(--border-hairline)] pt-6 text-xs text-[var(--text-muted)]">
+                  <p className="font-medium text-[var(--text-secondary)]">
+                    {proyecto.grupo} · {proyecto.curso}
+                  </p>
+                  <p className="mt-1">
+                    {proyecto.integrantes.map((i) => i.nombre).join(" · ")}
+                  </p>
+                </footer>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      /* =====================================================================
+         APLICACIÓN PRINCIPAL
+         ===================================================================== */
+
+      function App() {
+        const [activeDay, setActiveDay] = useState(1);
+        const [visitedDays, setVisitedDays] = useState(() => new Set());
+        const [elapsedSeconds, setElapsedSeconds] = useState(0);
+        const [isRunning, setIsRunning] = useState(false);
+        const [hasStarted, setHasStarted] = useState(false);
+        const [noticeDismissed, setNoticeDismissed] = useState(false);
+        const [isDark, setIsDark] = useState(() => {
+          try {
+            return localStorage.getItem(THEME_STORAGE_KEY) === "dark";
+          } catch {
+            return false;
+          }
+        });
+
+        const readerSectionRef = useRef(null);
+        const wasRunningBeforeHideRef = useRef(false);
+
+        const totalEstimatedSeconds = useMemo(
+          () => calcularSegundosTotales(CONTENIDO_BLOG.dias),
+          []
+        );
+
+        useEffect(() => {
+          const root = document.documentElement;
+          if (isDark) {
+            root.classList.add("dark");
+          } else {
+            root.classList.remove("dark");
+          }
+          try {
+            localStorage.setItem(THEME_STORAGE_KEY, isDark ? "dark" : "light");
+          } catch {
+            // Ignorar en entornos sin localStorage
+          }
+        }, [isDark]);
+
+        useEffect(() => {
+          if (!isRunning) return;
+          const interval = window.setInterval(() => {
+            setElapsedSeconds((prev) => prev + 1);
+          }, 1000);
+          return () => window.clearInterval(interval);
+        }, [isRunning]);
+
+        useEffect(() => {
+          const handleVisibilityChange = () => {
+            if (document.visibilityState === "hidden") {
+              setIsRunning((currentlyRunning) => {
+                wasRunningBeforeHideRef.current = currentlyRunning;
+                return false;
+              });
+            } else if (document.visibilityState === "visible") {
+              if (wasRunningBeforeHideRef.current) {
+                wasRunningBeforeHideRef.current = false;
+                setIsRunning(true);
+              }
+            }
+          };
+
+          document.addEventListener("visibilitychange", handleVisibilityChange);
+          return () =>
+            document.removeEventListener(
+              "visibilitychange",
+              handleVisibilityChange
+            );
+        }, []);
+
+        const scrollToReader = useCallback(() => {
+          const el = readerSectionRef.current;
+          if (!el) return;
+          const prefersReduced =
+            window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          el.scrollIntoView({
+            behavior: prefersReduced ? "auto" : "smooth",
+            block: "start",
+          });
+        }, []);
+
+        const handleSelectDay = useCallback(
+          (dayNumber) => {
+            const clamped = Math.max(
+              1,
+              Math.min(CONTENIDO_BLOG.dias.length, dayNumber)
+            );
+            setActiveDay(clamped);
+            scrollToReader();
+          },
+          [scrollToReader]
+        );
+
+        useEffect(() => {
+          const handleKeyDown = (event) => {
+            if (
+              event.altKey ||
+              event.ctrlKey ||
+              event.metaKey ||
+              event.shiftKey
+            ) {
+              return;
+            }
+            const target = event.target;
+            if (
+              target &&
+              (target.tagName === "INPUT" ||
+                target.tagName === "TEXTAREA" ||
+                target.tagName === "SELECT" ||
+                target.isContentEditable)
+            ) {
+              return;
+            }
+
+            if (event.key === "ArrowLeft" && activeDay > 1) {
+              event.preventDefault();
+              handleSelectDay(activeDay - 1);
+            } else if (
+              event.key === "ArrowRight" &&
+              activeDay < CONTENIDO_BLOG.dias.length
+            ) {
+              event.preventDefault();
+              handleSelectDay(activeDay + 1);
+            }
+          };
+
+          window.addEventListener("keydown", handleKeyDown);
+          return () => window.removeEventListener("keydown", handleKeyDown);
+        }, [activeDay, handleSelectDay]);
+
+        const handleStartReading = useCallback(() => {
+          setHasStarted(true);
+          setIsRunning(true);
+          setActiveDay(1);
+          scrollToReader();
+        }, [scrollToReader]);
+
+        const handleToggleRun = useCallback(() => {
+          if (!hasStarted) {
+            setHasStarted(true);
+          }
+          wasRunningBeforeHideRef.current = false;
+          setIsRunning((prev) => !prev);
+        }, [hasStarted]);
+
+        const handleResetTimer = useCallback(() => {
+          wasRunningBeforeHideRef.current = false;
+          setIsRunning(false);
+          setElapsedSeconds(0);
+          setNoticeDismissed(false);
+        }, []);
+
+        const handleMarkVisited = useCallback((dayNumber) => {
+          setVisitedDays((prev) => {
+            if (prev.has(dayNumber)) return prev;
+            const next = new Set(prev);
+            next.add(dayNumber);
+            return next;
+          });
+        }, []);
+
+        const currentDia =
+          CONTENIDO_BLOG.dias.find((d) => d.numero === activeDay) ||
+          CONTENIDO_BLOG.dias[0];
+
+        return (
+          <div className="min-h-screen bg-[var(--bg-canvas)] text-[var(--text-primary)]">
+            <a
+              href="#lectura"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-[var(--accent-olive)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#FBF9F4]"
+            >
+              Saltar al contenido de lectura
+            </a>
+
+            <div className="sticky top-0 z-40">
+              <ReadingClockBar
+                elapsedSeconds={elapsedSeconds}
+                isRunning={isRunning}
+                hasStarted={hasStarted}
+                totalEstimatedSeconds={totalEstimatedSeconds}
+                isDark={isDark}
+                noticeDismissed={noticeDismissed}
+                onToggleRun={handleToggleRun}
+                onReset={handleResetTimer}
+                onToggleTheme={() => setIsDark((prev) => !prev)}
+                onDismissNotice={() => setNoticeDismissed(true)}
+              />
+              <MobileTimelineStrip
+                dias={CONTENIDO_BLOG.dias}
+                activeDay={activeDay}
+                visitedDays={visitedDays}
+                onSelectDay={handleSelectDay}
+              />
+            </div>
+
+            <main>
+              <CoverSection
+                proyecto={CONTENIDO_BLOG.proyecto}
+                onStartReading={handleStartReading}
+              />
+
+              <section
+                id="lectura"
+                ref={readerSectionRef}
+                aria-label="Lectura por días"
+                className="scroll-mt-24 py-10 sm:py-12 lg:py-14"
+              >
+                <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 sm:px-6 lg:flex-row lg:gap-12">
+                  <DesktopTimelineSidebar
+                    dias={CONTENIDO_BLOG.dias}
+                    activeDay={activeDay}
+                    visitedDays={visitedDays}
+                    onSelectDay={handleSelectDay}
+                  />
+
+                  <DayReader
+                    dia={currentDia}
+                    totalDias={CONTENIDO_BLOG.dias.length}
+                    tesis={CONTENIDO_BLOG.proyecto.tesis}
+                    isVisited={visitedDays.has(currentDia.numero)}
+                    onMarkVisited={handleMarkVisited}
+                    onPrev={() => handleSelectDay(activeDay - 1)}
+                    onNext={() => handleSelectDay(activeDay + 1)}
+                  />
+                </div>
+              </section>
+
+              <ReferencesSection
+                referencias={CONTENIDO_BLOG.referencias}
+                creditosImagenes={CONTENIDO_BLOG.creditosImagenes}
+                proyecto={CONTENIDO_BLOG.proyecto}
+              />
+            </main>
+          </div>
+        );
+      }
+
+      const rootElement = document.getElementById("root");
+      const root = ReactDOM.createRoot(rootElement);
+      root.render(<App />);
+    </script>
   </body>
 </html>
