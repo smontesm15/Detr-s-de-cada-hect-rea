@@ -1,0 +1,6 @@
+{
+  "name": "Montes de María: ¿quién se quedó con la tierra? (1990-2005)",
+  "description": "Blog académico del Grupo 7 (CBU Colombia: espacio, tiempo, diferencia) sobre la influencia de los grupos armados en la concentración de la tenencia de la tierra en los Montes de María entre 1990 y 2005.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

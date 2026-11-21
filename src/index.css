@@ -1,0 +1,93 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --bg-canvas: #F7F4EC;
+    --bg-surface: #EFEAE0;
+    --bg-elevated: #FBF9F4;
+    --border-hairline: #D8D0C0;
+    --border-strong: #B9AE9A;
+    --text-primary: #231C16;
+    --text-secondary: #4D4238;
+    --text-muted: #6C5F52;
+    --accent-olive: #3F5232;
+    --accent-olive-hover: #324227;
+    --accent-olive-soft: #E5EBDF;
+    --accent-ochre: #8A5A1E;
+    --accent-ochre-soft: #F3EAD9;
+  }
+
+  .dark {
+    --bg-canvas: #171411;
+    --bg-surface: #211C17;
+    --bg-elevated: #27211C;
+    --border-hairline: #362E26;
+    --border-strong: #52473B;
+    --text-primary: #EFEAE0;
+    --text-secondary: #C8BFAF;
+    --text-muted: #9E9382;
+    --accent-olive: #8BA870;
+    --accent-olive-hover: #9BB880;
+    --accent-olive-soft: #252E1F;
+    --accent-ochre: #D49B4B;
+    --accent-ochre-soft: #2E2417;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+.font-serif-editorial {
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+
+.font-sans-ui {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+.font-mono-clock {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.prose-editorial {
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-size: 1.0625rem; /* 17px mínimo en móvil */
+  line-height: 1.78;
+}
+
+@media (min-width: 768px) {
+  .prose-editorial {
+    font-size: 1.125rem; /* 18px en pantallas amplias */
+    line-height: 1.8;
+  }
+}
+
+.dark .prose-editorial {
+  letter-spacing: 0.008em;
+}
