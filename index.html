@@ -153,9 +153,8 @@
       /* =====================================================================
          CONTENIDO EDITABLE DEL BLOG ACADÉMICO
          Edita únicamente el objeto CONTENIDO_BLOG para actualizar:
-         - Carreras de los integrantes
-         - Textos de los días 2 a 6 (titulo, subtitulo, integrante, contexto,
-           perspectiva, aporteALaTesis, dilemaEtico, cita, imagen)
+         - Textos de los días (titulo, subtitulo, integrante, parrafos,
+           fuente, contextualizacion, cita, imagen)
          - "nuestraPostura" en el Día 7
          - "creditosImagenes" al final
          Cualquier campo vacío ("") se oculta automáticamente y no suma
@@ -176,11 +175,11 @@
           tesis:
             "En la región de los Montes de María entre 1990 y 2005, la presencia y accionar de los grupos armados al margen de la ley impulsó la concentración de la tenencia de la tierra al sustituir el control estatal y subordinar los derechos legales de propiedad campesina a través del despojo sistemático a favor de élites locales y terceros.",
           integrantes: [
-            { nombre: "Juan González Puentes", carrera: "[carrera]" },
-            { nombre: "Sahara Manuela Montes Martínez", carrera: "[carrera]" },
-            { nombre: "Juan Sebastián Pinedo Sogamoso", carrera: "[carrera]" },
-            { nombre: "Laura Santana Ortiz", carrera: "[carrera]" },
-            { nombre: "Natalia Vitoviz Perdomo", carrera: "[carrera]" },
+            { nombre: "Juan González Puentes" },
+            { nombre: "Sahara Manuela Montes Martínez" },
+            { nombre: "Juan Sebastián Pinedo Sogamoso" },
+            { nombre: "Laura Santana Ortiz" },
+            { nombre: "Natalia Vitoviz Perdomo" },
           ],
         },
 
@@ -199,21 +198,65 @@
           },
           {
             numero: 2,
-            titulo: "",
+            titulo: "Cuando los mapas revelan los conflictos por la tierra",
             subtitulo: "",
             integrante: "",
-            parrafos: [],
+            parrafos: [
+              "Para comprender las transformaciones territoriales de los Montes de María, no basta con estudiar los hechos de violencia; también es necesario observar cómo se ha organizado y utilizado el territorio. Por esta razón, nuestra segunda jornada se centra en el mapa Uso de la tierra en el conflicto, elaborado por el Instituto Geográfico Agustín Codazzi (IGAC) en 2002. Esta fuente cartográfica nos permite aproximarnos a los conflictos relacionados con el aprovechamiento del suelo desde una perspectiva técnica e institucional, dentro del mismo periodo histórico que estamos investigando.",
+              "Al analizar esta fuente, identificamos una distinción fundamental: la capacidad productiva de un terreno y el uso que efectivamente se le da no necesariamente coinciden. Los conflictos de uso permiten reconocer tensiones entre las características del suelo y las actividades que se desarrollan sobre él. Sin embargo, comprendimos que un mapa de esta naturaleza tiene limitaciones: aunque permite identificar y localizar conflictos territoriales, no explica por sí mismo quién perdió la propiedad, cómo ocurrieron los procesos de despojo ni qué actores se beneficiaron de las transformaciones.",
+              "Esta limitación adquiere especial importancia cuando relacionamos la información cartográfica con el contexto histórico de los Montes de María. El Centro Nacional de Memoria Histórica, en su recorrido por los paisajes de la violencia, documenta cómo la expansión paramilitar en San Onofre estuvo vinculada no solamente al control militar, sino también a estrategias de desplazamiento y despojo que buscaban revertir los avances de las organizaciones campesinas y facilitar proyectos económicos de gran escala.",
+              "De esta manera, nuestra interpretación comienza a ampliarse: los conflictos territoriales no pueden entenderse únicamente como problemas de productividad o aprovechamiento del suelo. También deben analizarse desde las relaciones de poder que determinaron quién podía permanecer en el territorio, quién podía trabajar la tierra y quién terminó beneficiándose de sus transformaciones. El mapa nos muestra una dimensión del problema; la memoria histórica nos permite comprender lo que hay detrás de ella.",
+            ],
             fuente: {
-              titulo: "La masacre de El Salado",
-              tipo: "Informe de memoria histórica",
-              anio: "",
-              autor: "CNMH",
+              titulo: "Mapa de uso de la tierra en el conflicto",
+              tipo: "Cartografía",
+              anio: "2002",
+              autor: "Instituto Geográfico Agustín Codazzi (IGAC)",
               enlace:
-                "https://centrodememoriahistorica.gov.co/wp-content/uploads/2020/02/3.-La-masacre-de-El-Salado.pdf",
+                "https://geoportal.igac.gov.co/sites/geoportal.igac.gov.co/files/geoportal/conflictos_uso.jpg",
             },
             contextualizacion: {
               titulo:
-                'CNMH (2023), "Un poco de verdad para poder respirar: trayectoria e impactos de los bloques paramilitares en Montes de María y Mojana"',
+                'CNMH (2018), cap. 1: "La ocupación y apropiación del territorio"',
+              enlace:
+                "http://www.centrodememoriahistorica.gov.co/micrositios/balances-jep/tierras.html",
+            },
+            contexto: "",
+            perspectiva: "",
+            aporteALaTesis: "",
+            dilemaEtico: "",
+            cita: "",
+            imagen: {
+              src: "",
+              alt: "",
+              pieDeFoto: "",
+              credito: "",
+            },
+          },
+          {
+            numero: 3,
+            titulo:
+              "De los conflictos del suelo a las transformaciones de la propiedad",
+            subtitulo: "",
+            integrante: "",
+            parrafos: [
+              "Después de identificar las limitaciones y posibilidades del mapa del IGAC, nuestra tercera jornada busca contrastar la perspectiva cartográfica con la información estadística del Departamento Administrativo Nacional de Estadística (DANE), particularmente con el Censo Nacional Agropecuario. Este ejercicio nos permite ampliar el análisis y preguntarnos si los problemas relacionados con el uso y la distribución de la tierra siguen presentes más allá del periodo histórico que estamos estudiando.",
+              "La comparación entre ambas fuentes exige reconocer que no miden exactamente lo mismo: mientras el mapa del IGAC de 2002 permite identificar conflictos relacionados con el uso del suelo, el Censo Nacional Agropecuario proporciona información sobre las características y la distribución de las unidades de producción agropecuaria. Por eso, no debemos confundir los conflictos de uso con la concentración de la propiedad, aunque ambos fenómenos pueden relacionarse dentro de una misma estructura agraria.",
+              "Al poner estos datos en diálogo con los informes del Centro Nacional de Memoria Histórica, encontramos elementos que permiten comprender la relación entre violencia y transformación de la tenencia de la tierra. En el informe Un poco de verdad para poder respirar (2022), el CNMH registra que los casos de despojo o abandono forzado de tierras en los Montes de María aumentaron considerablemente durante el periodo de mayor intensidad del conflicto: se registraron 687 casos en 1999 y 798 en el año 2000. Estas cifras coinciden temporalmente con las principales masacres y desplazamientos masivos de la región.",
+              "Además, las transformaciones no terminaron con la disminución de la violencia. El informe Tierras y conflictos rurales del CNMH (2016) documenta que, entre 2005 y 2010, se realizaron compras masivas de tierras en municipios de los Montes de María que sumaron 37.166 hectáreas, de las cuales el 60 % de la superficie transada quedó en manos de ocho particulares. Aunque estos hechos corresponden a un periodo posterior al que delimita nuestra investigación, permiten observar cómo las consecuencias de la violencia y el abandono de los predios pudieron prolongarse en el tiempo mediante nuevas dinámicas de adquisición y concentración.",
+              "Así, nuestra hipótesis inicial adquiere mayor profundidad. La violencia no solamente provocó el desplazamiento de comunidades campesinas, sino que creó condiciones de vulnerabilidad que facilitaron posteriores transformaciones en la propiedad y el aprovechamiento de la tierra. Comprendemos entonces que estudiar el territorio exige relacionar los datos técnicos con los procesos históricos y sociales: detrás de las cifras de producción, las clasificaciones del suelo y las extensiones de tierra existen comunidades, derechos y proyectos de vida que fueron afectados por el conflicto armado.",
+            ],
+            fuente: {
+              titulo: "Censo Nacional Agropecuario",
+              tipo: "Estadística oficial",
+              anio: "",
+              autor: "DANE",
+              enlace:
+                "https://geoportal.dane.gov.co/geovisores/economia/censo-nacional-agropecuario/",
+            },
+            contextualizacion: {
+              titulo:
+                'CNMH, "Un poco de verdad para poder respirar: trayectoria e impactos de los bloques paramilitares en Montes de María y Mojana"',
               enlace:
                 "https://centrodememoriahistorica.gov.co/wp-content/uploads/2023/04/INFORME_MONTES-DE-MARIA-Y-MOJANA.pdf",
             },
@@ -230,56 +273,32 @@
             },
           },
           {
-            numero: 3,
-            titulo: "",
-            subtitulo: "",
-            integrante: "",
-            parrafos: [],
-            fuente: {
-              titulo:
-                "Piden investigar papel de la Fuerza Pública en masacres de Montes de María",
-              tipo: "Prensa",
-              anio: "",
-              autor: "El Tiempo",
-              enlace:
-                "https://www.eltiempo.com/justicia/jep-colombia/piden-investigar-papel-de-la-fuerza-publica-en-masacres-de-montes-de-maria-516220",
-            },
-            contextualizacion: {
-              titulo: 'CODHES, "Los Montes de María bajo fuego"',
-              enlace:
-                "https://codhes.wordpress.com/wp-content/uploads/2021/01/montes-de-maria-bajo-fuego.pdf",
-            },
-            contexto: "",
-            perspectiva: "",
-            aporteALaTesis: "",
-            dilemaEtico: "",
-            cita: "",
-            imagen: {
-              src: "",
-              alt: "",
-              pieDeFoto: "",
-              credito: "",
-            },
-          },
-          {
             numero: 4,
-            titulo: "",
+            titulo:
+              "Trayectoria e impactos de los bloques paramilitares (1990-2005)",
             subtitulo: "",
             integrante: "",
-            parrafos: [],
+            parrafos: [
+              "En nuestra cuarta jornada nos enfocamos en la historia del lugar, antes y durante 1990 - 2005, con base en el informe 17 de UN POCO DE VERDAD PARA PODER RESPIRAR trayectoria e impactos de los bloques paramilitares montes de maría y mojana. En la jornada pudimos comprender como ocurrieron los sucesos en la época y como la presencia de grupos armados al margen de la ley afecto a la tenencia de tierras.",
+              "Para comprender lo ocurrido entre 1990 y 2005 en los montes de María hay que saber que ocurrió antes. La tenencia de tierras llevaba tiempo con problemas entre grandes hacendados que se dedicaban a la ganadería extensiva y explotación de madera, y campesinos con parcelas pequeñas. En los setentas, la Asociación Nacional de Usuarios Campesinos (ANUC), lideró la recuperación de fincas improductivas que distribuyeron entre pequeños agricultores. Aunque, la contrarreforma del Pacto de Chicoral (1973) generó una estigmatización hacia el movimiento campesino de alterar el orden, tambien que los terratenientes financiaran grupos de seguridad privada para evitar la invasión campesina.",
+              "A esto se sumó la llegada de grupos guerrilleros como el ELN, EPL, PRT, CRS, luego en los noventa, los frentes 35 y 37 de las FARC, que realizaron secuestros, extorsiones y controles sobre la población. En los noventa, Grupos armados ligados a clanes familiares como los Méndez en Córdoba o los Meza en Ovejas, y a narcotraficantes como Luis Enrique Ramírez, alias Miki Ramírez, funcionaron como ejércitos privados. Luego usaron las cooperativas de seguridad Convivir, para volverse legales y tener un enlace con sectores de la fuerza pública.",
+              "Cuando prohibieron las Convivir en 1997, ganaderos, empresarios, políticos regionales y los hermanos Castaño realizaron reuniones, esos grupos se unieron con las Autodefensas Campesinas de Córdoba y Urabá (ACCU) para formar el Frente Rito Antonio Ochoa y después el Bloque Montes de María. En medio de esto, el Estado perdió el control de la fuerza, en ocasiones, agentes de la fuerza pública e instituciones locales actuaron por omisión, complicidad o cooptación, dejando a las comunidades rurales sin protección ni garantías jurídicas.",
+              "Entre 1997 y 2001, donde ocurren los años del terror (2000 - 2001), el Bloque Montes de María usó masacres, torturas, desapariciones forzadas y violencia sexual para controlar el territorio. Entre 1996 y 2003 se registraron unas 78 masacres paramilitares en Bolívar y Sucre, con picos muy fuertes en 1999 y 2000 en sitios como Las Palmas, El Salado, Las Brisas, Macayepos y Chengue. Aunque se escudaban en un discurso contrainsurgente para señalar a los campesinos como colaboradores de la guerrilla, estas acciones buscaban objetivos de territorio y dinero.",
+              "Las masacres provocaron desplazamientos masivos que quitaron población de rutas clave para el narcotráfico y armas entre el río Magdalena, la montaña y el Golfo de Morrosquillo, sacando a la gente y asegurando corredores sin testigos. A la vez, con tanta violencia y con alcaldías, hospitales y gobernaciones capturados por los paramilitares y sus aliados politicos, los derechos formales de pequeños agricultores dejaron de servir en la práctica. Los que no salieron por las armas tuvieron que dejar sus tierras o venderlas muy baratas bajo amenaza. Desde mediados de los noventa y durante la consolidación del Bloque entre 2002 y 2005, jefes paramilitares como Salvatore Mancuso en El Guamo o Rodrigo Mercado Peluf, en San Onofre, junto con narcotraficantes, testaferros y aliados regionales, compraron o se quedaron con haciendas para montar bases, ampliar la ganadería, meter monocultivos y lavar plata. En zonas como el Canal del Dique y los Montes de María, las víctimas cuentan que los armados llegaban a los pueblos y se apropiaban de fincas y casas sin que nadie pudiera hacer nada.",
+              "En 2005, cuando se desmovilizaron el Frente Mojana y el Bloque Montes de María, la forma de tener y trabajar la tierra en la región había cambiado por completo. El movimiento campesino que antes había logrado repartir mejor la tierra quedó partido y golpeado, mientras miles de familias seguían desplazadas en pueblos y ciudades cercanas. Lo que pasó en los Montes de María entre 1990 y 2005 muestra que concentrar la tierra no fue un efecto secundario de la guerra, sino una de sus razones centrales. Cuando los grupos armados reemplazan al Estado y usan la violencia para decidir quién puede vivir y sembrar en un lugar, los títulos de propiedad dejan de proteger al campesino y el despojo queda marcado como un daño difícil de borrar.",
+            ],
             fuente: {
-              titulo: "Los amigos que se apoderaron de los Montes de María",
-              tipo: "Prensa",
-              anio: "2017",
-              autor: "El Heraldo",
+              titulo:
+                "Un poco de verdad para poder respirar: trayectoria e impactos de los bloques paramilitares en Montes de María y Mojana (Informe 17)",
+              tipo: "Informe de memoria histórica",
+              anio: "2023",
+              autor: "CNMH",
               enlace:
-                "https://www.elheraldo.co/bolivar/2017/04/03/los-amigos-que-se-apoderaron-de-los-montes-de-maria-343767/",
+                "https://centrodememoriahistorica.gov.co/wp-content/uploads/2023/04/INFORME_MONTES-DE-MARIA-Y-MOJANA.pdf",
             },
             contextualizacion: {
-              titulo:
-                '"Contrarreforma agraria y conflicto armado en los Montes de María, 1996-2016"',
-              enlace:
-                "https://www.researchgate.net/publication/337274281_Contrarreforma_agraria_y_conflicto_armado_en_los_Montes_de_Maria_1996-2016",
+              titulo: "",
+              enlace: "",
             },
             contexto: "",
             perspectiva: "",
@@ -295,21 +314,25 @@
           },
           {
             numero: 5,
-            titulo: "",
+            titulo: "La masacre de El Salado: esa guerra no era nuestra",
             subtitulo: "",
             integrante: "",
-            parrafos: [],
+            parrafos: [
+              "Para el día 5 elegimos una fuente de otra naturaleza: La masacre de El Salado: esa guerra no era nuestra, que el Grupo de Memoria Histórica (hoy CNMH) publicó en 2009. El Salado, corregimiento de El Carmen de Bolívar, aparecía ya en el informe 17 como uno de los lugares donde se concentró el terror entre 1999 y 2000, y este texto permite mirarlo de cerca.",
+              "El informe sitúa el caso dentro de un contexto regional brutal: en esos años la violencia en los Montes de María se materializó en 42 masacres que dejaron 354 víctimas fatales. En El Salado murieron 66 personas entre el 16 y el 21 de febrero del 2000. Sin embargo, lo que más nos interesó fue lo que vino después. El CNMH registra que el pueblo quedó abandonado por más de 4.000 personas. Cuando en el Día 3 leímos las cifras de 687 casos de abandono en 1999 y 798 en 2000, eran números en una tabla. Aquí son familias que dejaron casas, animales y siembras en cuestión de días.",
+              "Esto nos obliga a corregir algo de nuestra hipótesis inicial. Pensábamos que el desplazamiento era una consecuencia, casi accidental, del enfrentamiento entre guerrilla y paramilitares. El título del informe va en otra dirección: la gente de El Salado no formaba parte de esa guerra y, aun así, fue su blanco. Si la población civil es el objetivo, el desplazamiento deja de ser un daño colateral y pasa a ser parte del método.",
+              "Hay un límite que conviene decir con claridad. El informe documenta la masacre y el abandono, pero no rastrea quién quedó después con las tierras. Esa parte del argumento no la puede sostener esta fuente, y la tendremos que armar con las demás. Lo que sí deja establecido es la condición de partida: para que alguien pudiera adquirir tierras en la región, primero tuvo que haber un territorio vaciado por el miedo.",
+            ],
             fuente: {
-              titulo:
-                "Mapa de uso de la tierra en el conflicto (2002) y Mapa de vocación de uso de la tierra (2012)",
-              tipo: "Cartografía",
-              anio: "2002 / 2012",
-              autor: "IGAC",
-              enlace: "",
+              titulo: "La masacre de El Salado: esa guerra no era nuestra",
+              tipo: "Informe de memoria histórica",
+              anio: "2009",
+              autor: "Grupo de Memoria Histórica (CNMH)",
+              enlace:
+                "https://centrodememoriahistorica.gov.co/wp-content/uploads/2020/02/3.-La-masacre-de-El-Salado.pdf",
             },
             contextualizacion: {
-              titulo:
-                'DANE, Censo Nacional Agropecuario, y CNMH (2018), cap. 1, "La ocupación y apropiación del territorio"',
+              titulo: "",
               enlace: "",
             },
             contexto: "",
@@ -326,19 +349,25 @@
           },
           {
             numero: 6,
-            titulo: "",
+            titulo: "Los 'Amigos' que se apoderaron de los Montes de María",
             subtitulo: "",
             integrante: "",
-            parrafos: [],
+            parrafos: [
+              'Para el día 6 se quiso analizar la crónica "Los \'Amigos\' que se apoderaron de los Montes de María", de Israel González, publicada por El Heraldo en abril de 2017. No es un texto académico, y así hay que leerlo: reúne testimonios de campesinos y apoyo en información de la Procuraduría, pero no equivale a una sentencia.',
+              'El relato más llamativo viene de las veredas Borrachera y San Francisco, en Ovejas. Los campesinos cuentan que llegaban comisionistas a comprar parcelas a precios bajos, y algunos aseguran que lo hacían escoltados por la Fuerza Pública. Uno de ellos recuerda la amenaza con que se cerraba el trato: "O me venden las tierras o la suegra me las vende más baratas". La estrategia, según el mismo líder, consistía en comprar primero las entradas de las parcelas, de modo que los vecinos del fondo no tuvieran por dónde sacar su producción y terminaran vendiendo.',
+              "El caso de Barcelona, en San Jacinto, nos interesa más porque cae dentro de nuestro periodo. Tras el asesinato de Julio César Moreno en 1996, cerca de 96 familias salieron de la zona, y luego aparecieron compradores que ofrecían una fracción de lo que valía la tierra. Eran predios que el Incora había entregado a campesinos dentro de programas de reforma agraria. La secuencia se repite: primero la violencia, después el comprador.",
+              "La Procuraduría, citada en la crónica, señala que el exsenador Otto Bula estaría relacionado con el presunto despojo masivo de unas 1.800 hectáreas. Hay que insistir en el adjetivo: se habla de presunto despojo y de señalamientos de víctimas, no de responsabilidades probadas. Además, las compras en Ovejas que describe el líder campesino ocurrieron hacia 2007, es decir, después del límite de 2005.",
+            ],
             fuente: {
-              titulo: "[por definir]",
-              tipo: "",
-              anio: "",
-              autor: "",
-              enlace: "",
+              titulo: "Los 'Amigos' que se apoderaron de los Montes de María",
+              tipo: "Crónica periodística",
+              anio: "2017",
+              autor: "Israel González (El Heraldo)",
+              enlace:
+                "https://www.elheraldo.co/bolivar/2017/04/03/los-amigos-que-se-apoderaron-de-los-montes-de-maria-343767/",
             },
             contextualizacion: {
-              titulo: "[por definir]",
+              titulo: "",
               enlace: "",
             },
             contexto: "",
@@ -960,11 +989,6 @@
                         <span className="font-medium text-[var(--text-primary)]">
                           {persona.nombre}
                         </span>
-                        {persona.carrera && persona.carrera.trim() && (
-                          <span className="text-xs text-[var(--text-muted)]">
-                            {persona.carrera}
-                          </span>
-                        )}
                       </li>
                     ))}
                   </ul>
