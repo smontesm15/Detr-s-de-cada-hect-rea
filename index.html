@@ -560,16 +560,6 @@
         return mins + " min " + secs + " s";
       }
 
-      function obtenerEstadoPresupuesto(totalSegundos) {
-        if (totalSegundos > LIMITE_LECTURA_SEGUNDOS) {
-          return { nivel: "rojo", etiqueta: "Supera el límite de 8 min" };
-        }
-        if (totalSegundos >= UMBRAL_AMBAR_SEGUNDOS) {
-          return { nivel: "ambar", etiqueta: "Entre 7 y 8 min" };
-        }
-        return { nivel: "verde", etiqueta: "Menor a 7 min" };
-      }
-
       /* =====================================================================
          ICONOS SVG AUTOCONTENIDOS
          ===================================================================== */
@@ -735,14 +725,6 @@
         );
         const completedEightMinutes =
           elapsedSeconds >= LIMITE_LECTURA_SEGUNDOS;
-        const budget = obtenerEstadoPresupuesto(totalEstimatedSeconds);
-
-        const budgetColorClasses =
-          budget.nivel === "rojo"
-            ? "text-[#992B2B] dark:text-[#E57B7B]"
-            : budget.nivel === "ambar"
-            ? "text-[#8C540B] dark:text-[#E0A346]"
-            : "text-[#2F5E38] dark:text-[#7BB887]";
 
         return (
           <header
@@ -826,12 +808,10 @@
 
                 <div className="flex items-center gap-2 sm:gap-4 shrink-0">
                   <div
-                    className="hidden items-center gap-2 text-xs sm:flex"
+                    className="hidden items-center gap-1.5 text-xs sm:flex"
                     aria-label={
                       "Total estimado de lectura: " +
-                      formatearMinYS(totalEstimatedSeconds) +
-                      ". Estado: " +
-                      budget.etiqueta
+                      formatearMinYS(totalEstimatedSeconds)
                     }
                   >
                     <span className="text-[var(--text-muted)] whitespace-nowrap">
@@ -840,32 +820,13 @@
                     <span className="font-mono-clock font-medium text-[var(--text-primary)] whitespace-nowrap">
                       {formatearMinYS(totalEstimatedSeconds)}
                     </span>
-                    <span
-                      className={
-                        "inline-flex items-center gap-1 font-medium whitespace-nowrap " +
-                        budgetColorClasses
-                      }
-                    >
-                      {budget.nivel === "rojo" ? (
-                        <IconAlertCircle className="h-3.5 w-3.5 shrink-0" />
-                      ) : (
-                        <IconCheckCircle className="h-3.5 w-3.5 shrink-0" />
-                      )}
-                      <span>{budget.etiqueta}</span>
-                    </span>
                   </div>
 
                   <div
-                    className={
-                      "flex items-center gap-1 text-[11px] font-medium sm:hidden " +
-                      budgetColorClasses
-                    }
+                    className="flex items-center gap-1 text-[11px] font-medium text-[var(--text-secondary)] sm:hidden"
                     title={
                       "Total estimado: " +
-                      formatearMinYS(totalEstimatedSeconds) +
-                      " (" +
-                      budget.etiqueta +
-                      ")"
+                      formatearMinYS(totalEstimatedSeconds)
                     }
                   >
                     <span className="font-mono-clock">
